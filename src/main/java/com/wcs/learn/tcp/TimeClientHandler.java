@@ -15,13 +15,9 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 
     private byte[] req;
 
-
     public TimeClientHandler() {
-         req = ("QUERY TIME ORDER" + System.getProperty("line.separator")).getBytes();
-      //  firstMsg = Unpooled.buffer(req.length);
-      //  firstMsg.writeBytes(req);
+         req = ("QUERY TIME ORDER"+"\r\n").getBytes();
     }
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ByteBuf message = null;
@@ -31,17 +27,17 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
             ctx.writeAndFlush(message);
         }
     }
-
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String body = (String) msg;
+         ByteBuf byteBuf = (ByteBuf)msg;
+        byte[] req = new byte[byteBuf.readableBytes()];
+        byteBuf.readBytes(req);
+        String body = new String(req,"UTF-8");
         System.out.println("Now is : "+body + "the counter is :"+ ++count);
     }
-
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("Unexpected exception from downstream :"+cause.getMessage());
         ctx.close();
     }
-
 }

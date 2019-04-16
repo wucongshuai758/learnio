@@ -3,16 +3,18 @@ package com.wcs.learn.NIO;
 public class Server {
     private static int DEFAULT_PORT = 12345;
     private static ServerHandler serverHandle;
-    public static void start(){
+
+    public static void start() {
         start(DEFAULT_PORT);
     }
-    public static synchronized void start(int port){
-        if(serverHandle!=null)
-            serverHandle.stop();
+
+    public static synchronized void start(int port) {
+        if (serverHandle != null) { serverHandle.stop(); }
         serverHandle = new ServerHandler(port);
-        new Thread(serverHandle,"Server").start();
+        new Thread(serverHandle, "Server").start();
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         start();
     }
 }

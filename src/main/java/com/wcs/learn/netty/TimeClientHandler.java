@@ -22,6 +22,7 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.writeAndFlush(firstMsg);
+
     }
 
     @Override
@@ -38,5 +39,4 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
         System.out.println("Unexpected exception from downstream :"+cause.getMessage());
         ctx.close();
     }
-
 }

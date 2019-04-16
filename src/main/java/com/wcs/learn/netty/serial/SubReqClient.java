@@ -28,9 +28,10 @@ public class SubReqClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        socketChannel.pipeline().addLast(new ObjectEncoder());
                         socketChannel.pipeline().addLast(new ObjectDecoder(1024 * 1024,
                             ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
+                        socketChannel.pipeline().addLast(new ObjectEncoder());
+
                         socketChannel.pipeline().addLast(new SubReqClientHandler());
 
                     }
